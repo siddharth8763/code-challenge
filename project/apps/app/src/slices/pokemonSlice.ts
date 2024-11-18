@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 interface Pokemon {
   name: string;
@@ -26,7 +26,11 @@ export const fetchPokemonData = createAsyncThunk('pokemon/fetchPokemonData', asy
 const pokemonSlice = createSlice({
   name: 'pokemon',
   initialState,
-  reducers: {},
+  reducers: {
+    removePokemon: (state, action: PayloadAction<string>) => {
+      state.pokemonData = state.pokemonData.filter(pokemon => pokemon.name !== action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPokemonData.pending, (state) => {
@@ -38,9 +42,10 @@ const pokemonSlice = createSlice({
       })
       .addCase(fetchPokemonData.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message || "An error occurred"; 
+        state.error = action.error.message || "An error occurred";
       });
   },
 });
 
+export const { removePokemon } = pokemonSlice.actions;
 export default pokemonSlice.reducer;
