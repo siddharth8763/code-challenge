@@ -1,14 +1,42 @@
-import { List } from 'ui'
+import { useState, useEffect } from "react";
+import { List } from "ui";
 
-const api = "https://pokeapi.co/api/v2/pokemon?limit=151"
+const api = "https://pokeapi.co/api/v2/pokemon?limit=151";
 
 const App = () => {
-  return (
-  <>
-    <h1>Pokemon list:</h1>
-    <List />
-  </>
-  )
-}
+  interface Pokemon {
+    name: string;
+    url: string;
+  }
 
-export default App
+  interface PokemonApiResponse {
+    count: number;
+    next: string | null;
+    previous: string | null;
+    results: Pokemon[];
+  }
+
+  const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
+
+  useEffect(() => {
+    const fetchPokemonData = async () => {
+      try {
+        const response = await fetch(api);
+        const data: PokemonApiResponse = await response.json();
+        setPokemonData(data.results);
+      } catch (error) {
+        console.error("Error fetching Pokémon data:", error);
+      }
+    };
+    fetchPokemonData();
+  }, []);
+
+  return (
+    <>
+      <h1>Pokémon list:</h1>
+      <List />
+    </>
+  );
+};
+
+export default App;
