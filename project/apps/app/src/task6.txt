@@ -1,0 +1,28 @@
+Question 1:
+- The useEffect hook in React is a powerful tool used for handling side effects in functional components. Here are some key points about its use:
+- Running Side Effects: It lets you perform side effects in your components, such as data fetching, updating the DOM, or setting up subscriptions. For instance, if you need to fetch data from an API when your component mounts, useEffect is the way to go.
+- Dependency Array: The hook takes a dependency array as its second argument, which determines when the effect runs. If you pass an empty array [], the effect runs only once after the initial render. If you include specific state variables or props in the array, the effect runs whenever any of those dependencies change.
+- Cleanup Function: useEffect can return a cleanup function, which React will call when the component unmounts or before running the effect again. This is useful for cleaning up subscriptions or timers to prevent memory leaks.
+- Multiple Effects: You can use multiple useEffect hooks in a single component to handle different side effects independently.
+
+Question 2:
+- A Higher-Order Component (HOC) in React is a function that takes a component and returns a new component with additional props or functionality. 
+- HOCs are used to enhance or modify components without altering their original structure, making code more reusable and modular. 
+
+Question 3:
+- Higher-Order Components (HOCs) are quite versatile in React and can be useful in several scenarios:
+- Code Reusability: They allow you to reuse logic across multiple components. For instance, if multiple components need to fetch data from an API, you can create an HOC to handle the fetching logic.
+- Conditional Rendering: HOCs can be used to show or hide components based on certain conditions, such as user authentication status.
+- Enhancing Components: They can add extra functionality to existing components, like logging, analytics tracking, or performance optimizations.
+- State Management: HOCs can manage state and pass it down as props, making it easier to share stateful logic between components.
+- Component Composition: They help in composing components in a more declarative way, making the component tree cleaner and more readable.
+
+Question 4:
+- When a component or function is prefixed with use, it typically indicates that it is a custom Hook.
+- Components prefixed with with are typically Higher-Order Components (HOCs) in React. These HOCs are named with the with prefix to indicate that they enhance or wrap another component to provide additional functionality
+
+Quesiton 5:
+- In TypeScript, a generic type allows you to create reusable and flexible components, functions, and classes that can work with a variety of data types. By using generics, you can define a placeholder type that will be specified later when the component, function, or class is instantiated
+
+Question 6:
+- Controlled inputs have their value managed by React state, while uncontrolled inputs have their value managed by the DOM.
