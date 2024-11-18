@@ -1,42 +1,33 @@
-import { useState, useEffect } from "react";
-import { List } from "ui";
-
-const api = "https://pokeapi.co/api/v2/pokemon?limit=151";
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { fetchPokemonData } from './slices/pokemonSlice';
+import { RootState } from '../store';
+import { useAppDispatch } from '../src/hooks/hooks';
+import { List } from '../../../packages/ui/components/List'; 
+import '../../../packages/ui/components/List.css'; 
 
 const App = () => {
-  interface Pokemon {
-    name: string;
-    url: string;
-  }
-
-  interface PokemonApiResponse {
-    count: number;
-    next: string | null;
-    previous: string | null;
-    results: Pokemon[];
-  }
-
-  const [pokemonData, setPokemonData] = useState<Pokemon[]>([]);
+  const dispatch = useAppDispatch();
+  const pokemonData = useSelector((state: RootState) => state.pokemon.pokemonData);
+  const pokemonStatus = useSelector((state: RootState) => state.pokemon.status);
+  const error = useSelector((state: RootState) => state.pokemon.error);
 
   useEffect(() => {
-    const fetchPokemonData = async () => {
-      try {
-        const response = await fetch(api);
-        const data: PokemonApiResponse = await response.json();
-        setPokemonData(data.results);
-      } catch (error) {
-        console.error("Error fetching Pokémon data:", error);
-      }
-    };
-    fetchPokemonData();
-  }, []);
+    if (pokemonStatus === 'idle') {
+      dispatch(fetchPokemonData());
+    }
+  }, [pokemonStatus, dispatch]);
 
   return (
     <>
       <h1>Pokémon list:</h1>
-      {pokemonData.map(pokemon => (
-        <List key={pokemon.name} name={pokemon.name} />
-      ))}
+      <div className="list-container">
+        {pokemonStatus === 'loading' && <p>Loading...</p>}
+        {pokemonStatus === 'succeeded' && pokemonData.map(pokemon => (
+          <List key={pokemon.name} name={pokemon.name} />
+        ))}
+        {pokemonStatus === 'failed' && <p>{error}</p>}
+      </div>
     </>
   );
 };
