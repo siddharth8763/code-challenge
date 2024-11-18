@@ -34,7 +34,9 @@ const App = () => {
   return (
     <>
       <h1>Pokémon list:</h1>
-      <List />
+      {pokemonData.map(pokemon => (
+        <List key={pokemon.name} name={pokemon.name} />
+      ))}
     </>
   );
 };
